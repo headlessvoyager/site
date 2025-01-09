@@ -1,3 +1,3 @@
 [submodule "themes/apollo"]
 	path = themes/apollo
-	url = git@github.com:headlessvoyager/apollo.git
+	url = https://github.com/headlessvoyager/site.git

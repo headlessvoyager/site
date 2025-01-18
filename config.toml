@@ -1,6 +1,6 @@
 # The URL the site will be built for
-# base_url = "https://headless-voyager.com"
-base_url = "http://127.0.0.1:1111"
+base_url = "https://headless-voyager.vercel.app"
+# base_url = "http://127.0.0.1:1111"
 title = "hv"
 
 theme = "apollo"
@@ -24,7 +24,7 @@ favicon = true
 
 socials = [
   { name = "github", url = "https://github.com/headless-voyager", icon = "github" },
-  { name = "email", url = "mailto:vikram.venkataramanan@mail.utoronto.ca", icon = "email" },
+  { name = "email", url = "mailto:vikram.v.email@gmail.com", icon = "email" },
   { name = "linkedin", url = "https://www.linkedin.com/in/vikramvenkataramanan", icon = "linkedin" },
 ]
 

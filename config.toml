@@ -20,7 +20,8 @@ highlight_theme = "ayu-light"
 
 [extra]
 # Put all your custom variables here
-site_title = "headless voyager"
+site_title = "the Headless Voyager's blog"
+me = "Vikram Venkataramanan"
 
 favicon = true
 
@@ -32,7 +33,7 @@ socials = [
 ]
 
 menu = [
-  { name = "/posts", url = "/posts", weight = 1 },
-  { name = "/about", url = "/about", weight = 2 },
+  { name = "blog", url = "", weight = 1 },
+  { name = "about-me", url = "/about", weight = 2 },
   # { name = "/tags", url = "/tags", weight = 3 },
 ]

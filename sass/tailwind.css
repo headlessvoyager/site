@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Override Tailwind's base font to use theme fonts */
+@layer base {
+  html {
+    font-family: var(--text-font);
+  }
+}
+
+/* Override theme CSS for socials alignment */
+@layer utilities {
+  .socials {
+    align-items: center !important;
+  }
+}
+
+/* Markdown content heading styles */
+@layer components {
+  .body h1,
+  .body h2,
+  .body h3,
+  .body h4,
+  .body h5,
+  .body h6 {
+    @apply mt-8 font-header;
+  }
+
+  .body h1 {
+    @apply text-3xl;
+  }
+
+  .body h2 {
+    @apply text-2xl mb-4;
+  }
+
+  .body h3 {
+    @apply text-xl;
+  }
+
+  .body h4 {
+    @apply text-lg;
+  }
+
+  .body h5 {
+    @apply text-base;
+  }
+
+  .body h6 {
+    @apply text-sm;
+  }
+
+  .body p {
+    @apply mb-4;
+  }
+
+  /* Keep the "# " markers from the original theme */
+  .body h1::before {
+    content: "# ";
+    color: var(--primary-color);
+  }
+
+  .body h2::before {
+    content: "## ";
+    color: var(--primary-color);
+  }
+
+  .body h3::before {
+    content: "### ";
+    color: var(--primary-color);
+  }
+
+  .body h4::before {
+    content: "#### ";
+    color: var(--primary-color);
+  }
+
+  .body h5::before {
+    content: "##### ";
+    color: var(--primary-color);
+  }
+
+  .body h6::before {
+    content: "###### ";
+    color: var(--primary-color);
+  }
+}
+
+/*
+ * Theme Colors Available in Tailwind:
+ *
+ * Background colors:
+ *   - bg-bg-0, bg-bg-1, bg-bg-2
+ *
+ * Text colors:
+ *   - text-text-0, text-text-1
+ *
+ * Theme colors:
+ *   - text-primary, bg-primary, border-primary
+ *   - text-hover, bg-hover
+ *
+ * Border color:
+ *   - border-border
+ *
+ * Font Families:
+ *   - font-sans, font-text - Uses Iosevka Web (theme text font)
+ *   - font-header - Uses Vollkorn (theme header font)
+ *   - font-code - Uses Iosevka Web (theme code font)
+ *
+ * Examples:
+ *   <div class="bg-bg-0 text-text-0">Main content</div>
+ *   <div class="bg-bg-1 text-text-1">Secondary content</div>
+ *   <a class="text-primary hover:bg-primary hover:text-hover">Link</a>
+ *   <h1 class="font-header">Header text</h1>
+ *   <code class="font-code">Code text</code>
+ *
+ * These colors automatically adapt to light/dark mode based on the theme.
+ */

@@ -1,0 +1,4 @@
+[tools]
+just = "latest"
+"npm:pnpm" = "latest"
+zola = "0.21.0"

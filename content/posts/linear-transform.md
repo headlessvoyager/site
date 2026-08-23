@@ -1,5 +1,5 @@
 +++
-title = "The geometry of linear transformations (old)"
+title = "[archived] The geometry of linear transformations"
 date = "2020-02-15"
 
 [taxonomies]

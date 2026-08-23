@@ -1,5 +1,5 @@
 +++
-title = "How to use nock to assert that a network call is not made (old)"
+title = "[archived] How to use nock to assert that a network call is not made"
 date = "2021-03-21"
 
 [taxonomies]

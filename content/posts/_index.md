@@ -11,12 +11,12 @@ comment = true
 
 Blog Posts
 
-    How to use nock to assert a network call is not made. April 03, 2021 | 2 min read
-    Compiling OpenCV from source May 14, 2020 | 3 min read
-    The geometry of linear transformations February 21, 2020 | 7 min read
+    [archived] How to use nock to assert a network call is not made. April 03, 2021 | 2 min read
+    [archived] Compiling OpenCV from source May 14, 2020 | 3 min read
+    [archived] The geometry of linear transformations February 21, 2020 | 7 min read
     Hello World February 15, 2020 | 1 min read
-    Etsy's Take on Documentation (old) October 29, 2018 | 3 min read
-    Joining the 'Hive' (old) June 10, 2018 | 6 min read
+    [archived] Etsy's Take on Documentation October 29, 2018 | 3 min read
+    [archived] Joining the 'Hive' June 10, 2018 | 6 min read
 
 Publications
 

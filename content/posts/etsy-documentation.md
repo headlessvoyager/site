@@ -1,5 +1,5 @@
 +++
-title = "Etsy's Take on Documentation (old)"
+title = "[archived] Etsy's Take on Documentation"
 date = "2018-10-29"
 
 [taxonomies]

@@ -1,5 +1,5 @@
 +++
-title = "Joining the 'Hive' (old)"
+title = "[archived] Joining the 'Hive'"
 date = "2018-06-10"
 
 [taxonomies]

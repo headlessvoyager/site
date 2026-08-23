@@ -1,5 +1,5 @@
 +++
-title = "Compiling OpenCV from source (old)"
+title = "[archived] Compiling OpenCV from source"
 date = "2020-05-14"
 
 [taxonomies]

@@ -149,3 +149,45 @@ jobs:
 
       - name: Show artifact size
         run: du -sh public || true
+
+  verify:
+    needs: deps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-public
+          path: public
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install accessibility and security scanners
+        run: npm install --global pa11y-ci npm-audit-html
+
+      - name: Scan for accessibility issues
+        run: |
+          # Scan HTML files for a11y issues using pa11y
+          set +e
+          found_issues=false
+          for html_file in $(find public -name "*.html" | head -20); do
+            echo "Checking $html_file for accessibility issues..."
+            pa11y --config .pa11y.json "$html_file" || found_issues=true
+          done
+          if [ "$found_issues" = true ]; then
+            echo "⚠️ Accessibility issues found (non-blocking for now)"
+          fi
+          set -e
+
+      - name: Check dependencies for security vulnerabilities
+        run: |
+          set +e
+          npm audit --audit-level=moderate || true
+          set -e
+          echo "✓ Security audit complete (view results above)"

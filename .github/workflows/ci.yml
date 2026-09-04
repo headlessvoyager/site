@@ -52,12 +52,9 @@ jobs:
           curl -fsSL "$url" -o "$tmpdir/archive.tar.gz"
           printf "%s  %s\n" "$expected" "$tmpdir/archive.tar.gz" > "$tmpdir/expected.sha"
           (sha256sum -c "$tmpdir/expected.sha" || shasum -a 256 -c "$tmpdir/expected.sha")
-          tar -xzf "$tmpdir/archive.tar.gz" -C "$tmpdir" || (unzip -q "$tmpdir/archive.tar.gz" -d "$tmpdir")
-          pnpm_bin=$(find "$tmpdir" -type f -name pnpm -perm -111 | head -n1 || true)
-          [ -n "$pnpm_bin" ] || (echo "pnpm binary not found in archive" >&2; exit 2)
           mkdir -p tools/bin
-          cp "$pnpm_bin" tools/bin/pnpm
-          chmod +x tools/bin/pnpm
+          tar -xzf "$tmpdir/archive.tar.gz" -C tools/bin
+          chmod +x tools/bin/pnpm || true
           rm -rf "$tmpdir"
 
       - name: Install zola (pinned, verify digest) and make available

@@ -210,9 +210,12 @@
     {%- for page in pages %}
         <div class="card">
             {% if page.extra.local_image %}
-                <img class="card-image" alt="{{ page.extra.image_alt | default(page.title) }}" src="{{ get_url(path=(page.extra.local_image)) }}" />
+                {# compute alt text in a separate variable to avoid expression parsing issues #}
+                {% set img_alt = page.extra.image_alt | default(page.title) %}
+                <img class="card-image" alt="{{ img_alt }}" src="{{ get_url(path=page.extra.local_image) }}" />
             {% elif page.extra.remote_image %}
-                <img class="card-image" alt="{{ page.extra.image_alt | default(page.title) }}" src="{{ page.extra.remote_image }}" />
+                {% set img_alt = page.extra.image_alt | default(page.title) %}
+                <img class="card-image" alt="{{ img_alt }}" src="{{ page.extra.remote_image }}" />
             {% else %}
                 <div class="card-image-placeholder"></div>
             {% endif %}

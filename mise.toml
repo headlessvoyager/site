@@ -1,4 +1,56 @@
 [tools]
-just = "latest"
-"npm:pnpm" = "latest"
+just = "1.58.0"  # pinned to GitHub release tag 1.58.0
+"npm:pnpm" = "11.25.0"  # pinned to release v11.25.0
 zola = "0.21.0"
+
+# Environment variables that can be provided to the build runtime.
+# These are suggestions for mise to export or for a .env file to be sourced
+# prior to running site commands. Edit values as needed.
+[env]
+SITE_BASE_URL = "https://headless-voyager.vercel.app"
+SITE_TITLE = "the Headless Voyager's blog"
+SITE_THEME = "apollo"
+SITE_THEME_PATH = "themes/apollo"
+COMPILE_SASS = "true"
+BUILD_SEARCH_INDEX = "true"
+# Port and interface for local dev server (zola serve). These can be overridden
+# by creating a .env file or by mise exporting them from this file at runtime.
+PORT = "1111"
+INTERFACE = "127.0.0.1"
+
+# Top-level task definitions that mirror the Justfile recipes. They can be
+# used by external tooling or scripts that read mise.toml to invoke common tasks.
+[tasks]
+setup = { cmd = "just setup", desc = "Install tools and node modules (mise install + pnpm install)" }
+build-css = { cmd = "just build-css", desc = "Build Tailwind CSS for production (minified)" }
+watch-css = { cmd = "just watch-css", desc = "Watch and rebuild Tailwind CSS during development" }
+serve = { cmd = "just serve", desc = "Start the Zola local development server" }
+build = { cmd = "just build", desc = "Build the site for production (build CSS then Zola)" }
+check = { cmd = "just check", desc = "Run zola check to validate site" }
+blog = { cmd = "just blog", desc = "Start development environment (Tailwind watcher + Zola server)" }
+
+# Cryptographic digests for reproducible tool and theme installation.
+# Each tool/platform maps to a sha256 digest for the release asset used to
+# install the tool. Themes (git submodules) are pinned to a commit SHA.
+[digests]
+
+[digests.tools.just]
+# Asset digests for just v1.58.0
+x86_64_unknown_linux_musl = "sha256:4a5cc2f53e6f0f8c59092a6cc38291eb729d46a7dd95d3ae582008881b84931d"
+aarch64_unknown_linux_musl = "sha256:748237128c4c40cbdabc65e841d05ceba13cc23a91eaba395495894c1d9764df"
+x86_64_apple_darwin = "sha256:9a09cfef66aaa79da58203970103a0684307716caaabd3e9844cacc4dc0f4023"
+aarch64_apple_darwin = "sha256:50ae3e996c974a0bf32ea7d10f495070df33f1b43e0616b2769e3d4821ed8f48"
+x86_64_pc_windows_msvc_zip = "sha256:759f16fb7aa17c5c8b9594b6d4a8c1a6630dfd042cf2b3ff84841454d3d188dc"
+
+[digests.tools.pnpm]
+# Asset digests for pnpm v11.25.0
+linux_x64 = "sha256:11caeed8b581d460638f836f10f6ead19cbf08d774a5b8e502628b20ebf3ac43"
+linux_x64_musl = "sha256:2a25fd5614c89d3e8e7c8cabfe9f5f2aba3c4f997fb69e6934ee257dd8753ca5"
+linux_arm64 = "sha256:6d62b433b7a77b77e814dfaca8032bae57bb79c1a5ad50442e688c4f7fed3c8a"
+darwin_arm64 = "sha256:cdcf7130ed2e7aa324c7c76ab597de66db0529b6b1e0db9e489bde538fdc0d04"
+win32_x64_zip = "sha256:2d0203af85fc6fbb40f786a2671f175e9119a7c6dfcc4f30b1fa17e0f072c301"
+
+[digests.themes.apollo]
+repo = "https://github.com/headlessvoyager/apollo.git"
+commit = "a4de2efcb2a49076022eb01744c37d3de6c05500"  # pinned gitlink for themes/apollo
+

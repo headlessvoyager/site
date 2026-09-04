@@ -122,8 +122,28 @@ jobs:
         with:
           name: tools-bin
 
+      - name: Normalize downloaded tools layout
+        run: |
+          # If the artifact extracted under a folder named tools-bin, move its contents into tools/
+          if [ -d "tools/bin" ]; then
+            echo "tools/bin already present"
+          elif [ -d "tools-bin" ]; then
+            echo "Moving tools-bin/* -> tools/"
+            mkdir -p tools
+            mv tools-bin/* tools/ || true
+          else
+            echo "No tools artifact directory found"
+          fi
+
       - name: Debug: list downloaded artifact
-        run: echo "PWD: $PWD" && echo "Workspace root listing:" && ls -la && echo "Checking tools directory:" && ls -la tools || true && echo "Checking tools/bin:" && ls -la tools/bin || true
+        run: |
+          echo "PWD: $PWD"
+          echo "Workspace root listing:"
+          ls -la
+          echo "Checking tools directory:"
+          ls -la tools || true
+          echo "Checking tools/bin:"
+          ls -la tools/bin || true
 
       - name: Add tools to PATH
         run: echo "${{ github.workspace }}/tools/bin" >> $GITHUB_PATH

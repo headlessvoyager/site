@@ -87,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tools-bin
-          path: tools/bin/*
+          path: tools/bin/
 
   deps:
     needs: tools

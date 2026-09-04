@@ -136,14 +136,7 @@ jobs:
           fi
 
       - name: Debug: list downloaded artifact
-        run: |
-          echo "PWD: $PWD"
-          echo "Workspace root listing:"
-          ls -la
-          echo "Checking tools directory:"
-          ls -la tools || true
-          echo "Checking tools/bin:"
-          ls -la tools/bin || true
+        run: echo "PWD: $PWD" && echo "Workspace root listing:" && ls -la && echo "Checking tools directory:" && ls -la tools || true && echo "Checking tools/bin:" && ls -la tools/bin || true
 
       - name: Add tools to PATH
         run: echo "${{ github.workspace }}/tools/bin" >> $GITHUB_PATH

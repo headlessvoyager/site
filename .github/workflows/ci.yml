@@ -141,6 +141,9 @@ jobs:
           name: tools-bin
           path: tools/bin
 
+      - name: Make tools executable
+        run: chmod +x tools/bin/* || true
+
       - name: Add tools to PATH
         run: echo "${{ github.workspace }}/tools/bin" >> $GITHUB_PATH
 

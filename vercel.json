@@ -1,0 +1,7 @@
+{
+  "buildCommand": "pnpm run build:css && zola build",
+  "installCommand": "corepack enable && pnpm install",
+  "env": {
+    "PNPM_VERSION": "11.25.0"
+  }
+}

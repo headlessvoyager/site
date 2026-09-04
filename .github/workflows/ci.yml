@@ -80,8 +80,8 @@ jobs:
           host_os=$(uname -s)
           arch=$(uname -m)
           case "$host_os-$arch" in
-            "Linux-x86_64") asset="zola-v0.21.0-x86_64-unknown-linux-gnu.tar.gz"; expected="da7e9def7b9acf0c9b78fb99ce72624504cfee1066ab7a161f09a4126dd7ffe6";;
-            "Linux-aarch64"|"Linux-arm64") asset="zola-v0.21.0-aarch64-unknown-linux-gnu.tar.gz"; expected="da7e9def7b9acf0c9b78fb99ce72624504cfee1066ab7a161f09a4126dd7ffe6";;
+            "Linux-x86_64") asset="zola-v0.21.0-x86_64-unknown-linux-gnu.tar.gz"; expected="5c37a8f706567d6cad3f0dbc0eaebe3b9591cc301bd67089e5ddc0d0401732d6";;
+            "Linux-aarch64"|"Linux-arm64") asset="zola-v0.21.0-aarch64-unknown-linux-gnu.tar.gz"; expected="5c37a8f706567d6cad3f0dbc0eaebe3b9591cc301bd67089e5ddc0d0401732d6";;
             "Darwin-x86_64") asset="zola-v0.21.0-x86_64-apple-darwin.tar.gz"; expected="1bb896d52877ee637b16f6b8d5827ec1e5abbd4a78b541a771c65cebb10f47e8";;
             "Darwin-arm64"|"Darwin-aarch64") asset="zola-v0.21.0-aarch64-apple-darwin.tar.gz"; expected="5fa8d33c82ee9990cb41020bff0ce40caf98fe4e46d38fdf2740a81a6c78efda";;
             *) echo "Unsupported OS/arch or missing mapping: $host_os-$arch" >&2; exit 1;;

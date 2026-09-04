@@ -103,15 +103,36 @@ jobs:
 
       - name: Normalize downloaded tools layout
         run: |
-          # If the artifact extracted under a folder named tools-bin, move its contents into tools/
-          if [ -d "tools/bin" ]; then
-            echo "tools/bin already present"
+          set -euo pipefail
+          mkdir -p tools/bin
+
+          # Case A: artifact already placed tools/bin/*
+          if [ -d "tools/bin" ] && [ "$(ls -A tools/bin || true)" ]; then
+            echo "tools/bin already present and non-empty"
+
+          # Case B: artifact extracted under tools-bin/ (older runs)
           elif [ -d "tools-bin" ]; then
             echo "Moving tools-bin/* -> tools/"
             mkdir -p tools
             mv tools-bin/* tools/ || true
+
+          # Case C: artifact extracted files directly at workspace root; try to locate known binaries
           else
-            echo "No tools artifact directory found"
+            echo "tools/bin not found; searching for known tool binaries in workspace"
+            found_any=false
+            for b in just pnpm zola; do
+              found_path=$(find . -maxdepth 4 -type f -name "$b" -perm -111 -print -quit || true)
+              if [ -n "$found_path" ]; then
+                echo "Found $b at $found_path; copying to tools/bin/"
+                cp "$found_path" "tools/bin/$b" || mv "$found_path" "tools/bin/$b" || true
+                chmod +x "tools/bin/$b" || true
+                found_any=true
+              fi
+            done
+            if [ "$found_any" = false ]; then
+              echo "No known tool binaries found by name. Listing workspace for diagnosis:"
+              ls -la || true
+            fi
           fi
 
       - name: "Debug: list downloaded artifact"
@@ -154,16 +175,39 @@ jobs:
 
       - name: Normalize downloaded tools layout
         run: |
-          # If the artifact extracted under a folder named tools-bin, move its contents into tools/
-          if [ -d "tools/bin" ]; then
-            echo "tools/bin already present"
+          set -euo pipefail
+          mkdir -p tools/bin
+
+          # Case A: artifact already placed tools/bin/*
+          if [ -d "tools/bin" ] && [ "$(ls -A tools/bin || true)" ]; then
+            echo "tools/bin already present and non-empty"
+
+          # Case B: artifact extracted under tools-bin/ (older runs)
           elif [ -d "tools-bin" ]; then
             echo "Moving tools-bin/* -> tools/"
             mkdir -p tools
             mv tools-bin/* tools/ || true
+
+          # Case C: artifact extracted files directly at workspace root; try to locate known binaries
           else
-            echo "No tools artifact directory found"
+            echo "tools/bin not found; searching for known tool binaries in workspace"
+            found_any=false
+            for b in just pnpm zola; do
+              found_path=$(find . -maxdepth 4 -type f -name "$b" -perm -111 -print -quit || true)
+              if [ -n "$found_path" ]; then
+                echo "Found $b at $found_path; copying to tools/bin/"
+                cp "$found_path" "tools/bin/$b" || mv "$found_path" "tools/bin/$b" || true
+                chmod +x "tools/bin/$b" || true
+                found_any=true
+              fi
+            done
+            if [ "$found_any" = false ]; then
+              echo "No known tool binaries found by name. Listing workspace for diagnosis:"
+              ls -la || true
+            fi
           fi
+
+          echo "Normalized tools layout:"; ls -la tools || true
 
       - name: Add tools to PATH
         run: echo "${{ github.workspace }}/tools/bin" >> $GITHUB_PATH

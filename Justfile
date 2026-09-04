@@ -10,7 +10,7 @@ default:
 setup:
     set -a; [ -f .env ] && source .env; set +a
     mise install
-    pnpm install || true
+    pnpm install 2>&1 | grep -v "Ignored build scripts" | grep -v "pnpm approve-builds" | grep -v "Warning" | grep -v "^[╭╰│─]" | grep -v "^$" || true
 
 # Build Tailwind CSS for production (minified)
 build-css:

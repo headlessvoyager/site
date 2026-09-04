@@ -1,0 +1,3 @@
+# pnpm configuration
+# Approve builds for core-js (deprecated but required by transitive dependencies)
+allow-builds[]="core-js"

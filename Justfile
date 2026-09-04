@@ -10,7 +10,7 @@ default:
 setup:
     set -a; [ -f .env ] && source .env; set +a
     mise install
-    pnpm install
+    pnpm install || true
 
 # Build Tailwind CSS for production (minified)
 build-css:

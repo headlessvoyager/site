@@ -116,3 +116,13 @@ audit-deps:
 	# Run package manager audits
 	pnpm audit || true
 	@echo "Audit completed"
+
+# Format code with biome (JS/TS/JSON/TOML/CSS) and prettier (HTML templates)
+format:
+	set -a; [ -f .env ] && source .env; set +a
+	@echo "Formatting code..."
+	# Format with biome (JS, JSON, TOML)
+	pnpm exec biome format --write . || true
+	# Format HTML templates with prettier (if available)
+	pnpm exec prettier --write "templates/**/*.html" "content/**/*.md" || true
+	@echo "✓ Formatting complete"

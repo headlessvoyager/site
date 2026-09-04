@@ -137,12 +137,6 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - name: Install dependencies (mise + pnpm)
-        run: |
-          set -euo pipefail
-          mise install || true
-          tools/bin/pnpm install --frozen-lockfile
-
   build:
     needs: [tools, deps]
     runs-on: ubuntu-latest

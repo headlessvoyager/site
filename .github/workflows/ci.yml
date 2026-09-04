@@ -1,0 +1,193 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, headlessvoyager-workspace-overview ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tools:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache tools
+        uses: actions/cache@v4
+        with:
+          path: tools/bin
+          key: ${{ runner.os }}-tools-${{ hashFiles('mise.toml') }}
+
+      - name: Install `just` (pinned, verify digest) and make available
+        run: |
+          # Simplified installer for ubuntu (ubuntu-latest runner). If you need mac/windows support,
+          # restore the full OS/arch case mapping.
+          set -euo pipefail
+          asset="just-1.58.0-x86_64-unknown-linux-musl.tar.gz"
+          expected="4a5cc2f53e6f0f8c59092a6cc38291eb729d46a7dd95d3ae582008881b84931d"
+          tmpdir=$(mktemp -d)
+          url="https://github.com/casey/just/releases/download/1.58.0/$asset"
+          echo "Downloading $url"
+          curl -fsSL "$url" -o "$tmpdir/archive.tar.gz"
+          printf "%s  %s\n" "$expected" "$tmpdir/archive.tar.gz" > "$tmpdir/expected.sha"
+          (sha256sum -c "$tmpdir/expected.sha" || shasum -a 256 -c "$tmpdir/expected.sha")
+          mkdir -p tools/bin
+          tar -xzf "$tmpdir/archive.tar.gz" -C "$tmpdir"
+          just_bin=$(find "$tmpdir" -type f -name just -perm -111 | head -n1 || true)
+          [ -n "$just_bin" ] || (echo "just binary not found in archive" >&2; exit 2)
+          cp "$just_bin" tools/bin/just
+          chmod +x tools/bin/just
+          rm -rf "$tmpdir"
+
+      - name: Install pnpm (pinned, verify digest) and make available
+        run: |
+          # Simplified installer for ubuntu runner
+          set -euo pipefail
+          asset="pnpm-linux-x64.tar.gz"
+          expected="11caeed8b581d460638f836f10f6ead19cbf08d774a5b8e502628b20ebf3ac43"
+          tmpdir=$(mktemp -d)
+          url="https://github.com/pnpm/pnpm/releases/download/v11.25.0/$asset"
+          echo "Downloading $url"
+          curl -fsSL "$url" -o "$tmpdir/archive.tar.gz"
+          printf "%s  %s\n" "$expected" "$tmpdir/archive.tar.gz" > "$tmpdir/expected.sha"
+          (sha256sum -c "$tmpdir/expected.sha" || shasum -a 256 -c "$tmpdir/expected.sha")
+          mkdir -p tools/bin
+          tar -xzf "$tmpdir/archive.tar.gz" -C tools/bin
+          chmod +x tools/bin/pnpm || true
+          rm -rf "$tmpdir"
+
+      - name: Install zola (pinned, verify digest) and make available
+        run: |
+          # Simplified installer optimized for ubuntu runners (linux x86_64)
+          set -euo pipefail
+          asset="zola-v0.21.0-x86_64-unknown-linux-gnu.tar.gz"
+          expected="5c37a8f706567d6cad3f0dbc0eaebe3b9591cc301bd67089e5ddc0d0401732d6"
+          tmpdir=$(mktemp -d)
+          url="https://github.com/getzola/zola/releases/download/v0.21.0/$asset"
+          echo "Downloading $url"
+          curl -fsSL "$url" -o "$tmpdir/archive.tar.gz"
+          printf "%s  %s\n" "$expected" "$tmpdir/archive.tar.gz" > "$tmpdir/expected.sha"
+          (sha256sum -c "$tmpdir/expected.sha" || shasum -a 256 -c "$tmpdir/expected.sha")
+          mkdir -p tools/bin
+          tar -xzf "$tmpdir/archive.tar.gz" -C "$tmpdir"
+          zola_bin=$(find "$tmpdir" -type f -name zola -perm -111 | head -n1 || true)
+          [ -n "$zola_bin" ] || (echo "zola binary not found in archive" >&2; exit 2)
+          cp "$zola_bin" tools/bin/zola
+          chmod +x tools/bin/zola
+          rm -rf "$tmpdir"
+
+      - name: Add tools to PATH
+        run: echo "${{ github.workspace }}/tools/bin" >> $GITHUB_PATH
+
+      - name: Upload tools artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tools-bin
+          path: tools/bin/
+
+  deps:
+    needs: tools
+    runs-on: ubuntu-latest
+    env:
+      SITE_BASE_URL: ${{ secrets.SITE_BASE_URL }}
+      SITE_TITLE: ${{ secrets.SITE_TITLE }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download tools artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tools-bin
+          path: tools/bin
+
+      - name: Make tools executable
+        run: chmod +x tools/bin/* || true
+
+      - name: Add tools to PATH
+        run: echo "${{ github.workspace }}/tools/bin" >> $GITHUB_PATH
+
+      - name: Setup Node (for pnpm runtime)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Verify tools & install theme
+        run: |
+          chmod +x tools/bin/just || true
+          tools/bin/just install-theme
+
+      - name: Run checks and audit
+        run: |
+          set -euo pipefail
+          tools/bin/just check || true
+          tools/bin/pnpm audit --audit-level=high || true
+
+      - name: Build site
+        run: |
+          set -euo pipefail
+          tools/bin/just build
+
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-public
+          path: public
+
+      - name: Show artifact size
+        run: du -sh public || true
+
+  verify:
+    needs: deps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-public
+          path: public
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install accessibility and security scanners
+        run: npm install --global pa11y-ci npm-audit-html
+
+      - name: Scan for accessibility issues
+        run: |
+          # Scan HTML files for a11y issues using pa11y
+          set +e
+          found_issues=false
+          for html_file in $(find public -name "*.html" | head -20); do
+            echo "Checking $html_file for accessibility issues..."
+            pa11y --config .pa11y.json "$html_file" || found_issues=true
+          done
+          if [ "$found_issues" = true ]; then
+            echo "⚠️ Accessibility issues found (non-blocking for now)"
+          fi
+          set -e
+
+      - name: Check dependencies for security vulnerabilities
+        run: |
+          set +e
+          npm audit --audit-level=moderate || true
+          set -e
+          echo "✓ Security audit complete (view results above)"

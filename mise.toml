@@ -1,4 +1,32 @@
 [tools]
-just = "latest"
-"npm:pnpm" = "latest"
+just = "1.58.0"  # pinned to GitHub release tag 1.58.0
+"npm:pnpm" = "11.25.0"  # pinned to release v11.25.0
 zola = "0.21.0"
+
+# Environment variables that can be provided to the build runtime.
+# These are suggestions for mise to export or for a .env file to be sourced
+# prior to running site commands. Edit values as needed.
+[env]
+SITE_BASE_URL = "https://headless-voyager.vercel.app"
+SITE_TITLE = "the Headless Voyager's blog"
+SITE_THEME = "apollo"
+SITE_THEME_PATH = "themes/apollo"
+COMPILE_SASS = "true"
+BUILD_SEARCH_INDEX = "true"
+# Port and interface for local dev server (zola serve). These can be overridden
+# by creating a .env file or by mise exporting them from this file at runtime.
+PORT = "1111"
+INTERFACE = "127.0.0.1"
+
+# Top-level task definitions that mirror the Justfile recipes. They can be
+# used by external tooling or scripts that read mise.toml to invoke common tasks.
+[tasks]
+setup = { run = "just setup", description = "Install tools and node modules (mise install + pnpm install)" }
+build-css = { run = "just build-css", description = "Build Tailwind CSS for production (minified)" }
+watch-css = { run = "just watch-css", description = "Watch and rebuild Tailwind CSS during development" }
+serve = { run = "just serve", description = "Start the Zola local development server" }
+build = { run = "just build", description = "Build the site for production (build CSS then Zola)" }
+check = { run = "just check", description = "Run zola check to validate site" }
+blog = { run = "just blog", description = "Start development environment (Tailwind watcher + Zola server)" }
+
+

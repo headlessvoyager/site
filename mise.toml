@@ -21,13 +21,13 @@ INTERFACE = "127.0.0.1"
 # Top-level task definitions that mirror the Justfile recipes. They can be
 # used by external tooling or scripts that read mise.toml to invoke common tasks.
 [tasks]
-setup = { run = "just setup", desc = "Install tools and node modules (mise install + pnpm install)" }
-build-css = { run = "just build-css", desc = "Build Tailwind CSS for production (minified)" }
-watch-css = { run = "just watch-css", desc = "Watch and rebuild Tailwind CSS during development" }
-serve = { run = "just serve", desc = "Start the Zola local development server" }
-build = { run = "just build", desc = "Build the site for production (build CSS then Zola)" }
-check = { run = "just check", desc = "Run zola check to validate site" }
-blog = { run = "just blog", desc = "Start development environment (Tailwind watcher + Zola server)" }
+setup = { run = "just setup", description = "Install tools and node modules (mise install + pnpm install)" }
+build-css = { run = "just build-css", description = "Build Tailwind CSS for production (minified)" }
+watch-css = { run = "just watch-css", description = "Watch and rebuild Tailwind CSS during development" }
+serve = { run = "just serve", description = "Start the Zola local development server" }
+build = { run = "just build", description = "Build the site for production (build CSS then Zola)" }
+check = { run = "just check", description = "Run zola check to validate site" }
+blog = { run = "just blog", description = "Start development environment (Tailwind watcher + Zola server)" }
 
 # Cryptographic digests for reproducible tool and theme installation.
 # Each tool/platform maps to a sha256 digest for the release asset used to

@@ -1,12 +1,13 @@
-<header>
+<header role="banner">
+    <nav role="navigation" aria-label="Primary navigation">
     <span class="flex flex-row justify-between w-full">
         <div class="flex flex-row items-center gap-3">
-            <a href={{ config.base_url }} class="text-2xl">{{ config.extra.site_title }}</a>
+            <a href="{{ config.base_url }}" class="text-2xl" aria-label="Home">{{ config.extra.site_title }}</a>
             <div class="flex flex-row items-center gap-1.5">
                 {% for social in config.extra.socials | default(value=[]) %}
                 {% if social.name != "rss" %}
                 <a rel="me" href="{{ social.url }}" class="border-none">
-                    <img alt={{ social.name }} src={{ get_url(path="social_icons/" ~ social.icon ~ ".svg") }} class="w-6 h-6 border-none">
+                    <img alt="{{ social.name }}" src="{{ get_url(path='social_icons/' ~ social.icon ~ '.svg') }}" class="w-6 h-6 border-none">
                 </a>
                 {% endif %}
                 {% endfor %}
@@ -15,13 +16,13 @@
 
         <div>
             {% for menu in config.extra.menu | default(value=[]) %}
-                <a href={{ get_url(path=menu.url) }} class="mx-2">{{ menu.name }}</a>
+                <a href="{{ get_url(path=menu.url) }}" class="mx-2">{{ menu.name }}</a>
             {% endfor %}
             <a href="/atom.xml" class="mx-2">rss</a>
             {% if config.extra.theme | default(value="toggle") == "toggle" %}
-        |<a id="dark-mode-toggle" onclick="toggleTheme(); event.preventDefault();" href="#">
-            <img src={{ get_url(path="feather/sun.svg") }} id="sun-icon" style="filter: invert(1);" alt="Light" />
-            <img src={{ get_url(path="feather/moon.svg") }} id="moon-icon" alt="Dark" />
+        | <a id="dark-mode-toggle" onclick="toggleTheme(); event.preventDefault();" href="#" aria-label="Toggle theme">
+            <img src="{{ get_url(path='feather/sun.svg') }}" id="sun-icon" style="filter: invert(1);" alt="" aria-hidden="true" />
+            <img src="{{ get_url(path='feather/moon.svg') }}" id="moon-icon" alt="" aria-hidden="true" />
         </a>
 
         <!-- Inititialize the theme toggle icons -->
@@ -29,4 +30,5 @@
         {% endif %}
         </div>
     </span>
+    </nav>
 </header>

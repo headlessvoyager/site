@@ -81,7 +81,7 @@ jobs:
         run: echo "${{ github.workspace }}/tools/bin" >> $GITHUB_PATH
 
       - name: Upload tools artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: tools-bin
           path: tools/bin/
@@ -142,7 +142,7 @@ jobs:
           tools/bin/just build
 
       - name: Upload site artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: site-public
           path: public

@@ -1,6 +1,23 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@source "../templates";
+@source "../content";
+@source "../themes/apollo/templates";
+
+@theme inline {
+  --color-bg-0: var(--bg-0);
+  --color-bg-1: var(--bg-1);
+  --color-bg-2: var(--bg-2);
+  --color-text-0: var(--text-0);
+  --color-text-1: var(--text-1);
+  --color-primary: var(--primary-color);
+  --color-hover: var(--hover-color);
+  --color-border: var(--border-color);
+  --font-sans: var(--text-font), sans-serif;
+  --font-text: var(--text-font), sans-serif;
+  --font-header: var(--header-font);
+  --font-code: var(--code-font), monospace;
+}
 
 /* Override Tailwind's base font to use theme fonts */
 @layer base {

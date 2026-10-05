@@ -37,3 +37,12 @@ menu = [
   { name = "whoami", url = "/about", weight = 2 },
   # { name = "/tags", url = "/tags", weight = 3 },
 ]
+
+[link_checker]
+# LinkedIn returns a custom HTTP 999 status code (instead of 200 OK) to automated request bots like Zola's
+# link checker to prevent web scraping. The URL itself is fine, but Zola flags it as broken because
+# it isn't getting a 2xx response.
+# Skip specific domain prefix or regex
+skip_prefixes = [
+    "https://www.linkedin.com/in/",
+]

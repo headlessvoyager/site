@@ -5,96 +5,90 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {# Meta Data Loop #}
     {% if page.extra.meta %}
-         <!-- the meta data config goes here  -->
-         {% for data in page.extra.meta %}
-             <meta
-                 {% for key, value in data%}
-                     {% if key == "property" and value == "og:title"%}
-                         {% set_global page_has_og_title = true -%}
-                     {% endif %}
-                     {% if key == "property" and value == "og:description"%}
-                         {% set_global page_has_og_description = true -%}
-                     {% endif %}
-                     {% if key == "name" and value == "description"%}
-                         {% set_global page_has_description = true -%}
-                     {% endif %}
-                     {{ key }}="{{ value }}"
+        {% for data in page.extra.meta %}
+            <meta
+                {% for key, value in data %}
+                    {% if key == "property" and value == "og:title" %}{% set_global page_has_og_title = true %}{% endif %}
+                    {% if key == "property" and value == "og:description" %}{% set_global page_has_og_description = true %}{% endif %}
+                    {% if key == "name" and value == "description" %}{% set_global page_has_description = true %}{% endif %}
+                    {{ key }}="{{ value }}"
                 {% endfor %}
             />
         {% endfor %}
     {% endif %}
 
-    {# Site title #}
+    {# Canonical URL #}
+    <link rel="canonical" href="{{ current_url | default(value=config.base_url) }}">
+
+    {# Site Title & OpenGraph Title #}
     {% set current_path = current_path | default(value="/") %}
+    {% set site_name = config.title | default(value="Home") %}
     {% if current_path == "/" %}
-    <title>
-        {{ config.title | default(value="Home") }}
-    </title>
-    {% if not page_has_og_title %}
-        <meta property="og:title" content="{{ config.title | default(value="Home") }}" />
-    {% endif %}
-
+        {% set page_title = site_name %}
     {% else %}
-    <title>
-        {% if page.title %} {{ page.title }} | {{ config.title | default(value="Home") }}
-        {% elif section.title %} {{ section.title }} | {{ config.title | default(value="Home") }}
-        {% elif config.title %} {{ config.title }} | {{ config.title | default(value="Home") }}
-        {% else %} Post | {{ config.title | default(value="Home") }} {% endif %}
-    </title>
-
-        {% if not page_has_og_title %}
-            <meta property="og:title" content="{% if page.title -%}{{ page.title }}{% elif config.title -%}{{ config.title }}{% else -%}Post{% endif -%}" />
+        {% if page and page.title %}
+            {% set page_title = page.title ~ " | " ~ site_name %}
+        {% elif section and section.title %}
+            {% set page_title = section.title ~ " | " ~ site_name %}
+        {% else %}
+            {% set page_title = "Post | " ~ site_name %}
         {% endif %}
-     {% endif %}
-
-     {% if not page_has_og_description %}
-         {% if page.description %}
-             <meta property="og:description" content="{{ page.description }}" />
-         {% elif config.description %}
-             <meta property="og:description" content="{{ config.description }}" />
-         {% endif %}
-     {% endif %}
-
-     {% if not page_has_description %}
-         {% if page.description %}
-             <meta name="description" content="{{ page.description }}" />
-         {% elif config.description %}
-             <meta name="description" content="{{ config.description }}" />
-         {% endif %}
     {% endif %}
+
+    <title>{{ page_title }}</title>
+
+    {% if not page_has_og_title %}
+        <meta property="og:title" content="{% if page and page.title %}{{ page.title }}{% else %}{{ site_name }}{% endif %}" />
+    {% endif %}
+
+    {# Meta Description #}
+    {% set meta_desc = page.description | default(value=config.description | default(value="")) %}
+    {% if meta_desc %}
+        {% if not page_has_og_description %}
+            <meta property="og:description" content="{{ meta_desc }}" />
+        {% endif %}
+        {% if not page_has_description %}
+            <meta name="description" content="{{ meta_desc }}" />
+        {% endif %}
+    {% endif %}
+
+    {# Social Media / OpenGraph #}
+    <meta property="og:url" content="{{ current_url | default(value=config.base_url) }}" />
+    <meta property="og:type" content="{% if page %}article{% else %}website{% endif %}" />
+    <meta name="twitter:card" content="summary" />
 
     {# Favicon #}
-    {% if config.extra.favicon %}
+    {% if config.extra.favicon | default(value=true) %}
         <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
         <link rel="manifest" href="/favicon/site.webmanifest">
     {% endif %}
 
-    {# Font from cdn or disk #}
+    {# Fonts #}
     {% if config.extra.use_cdn | default(value=false) %}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jetbrains-mono@1.0.6/css/jetbrains-mono.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@4.5.8/index.min.css">
     {% else %}
-        <link href={{ get_url(path="fonts.css") }} rel="stylesheet" />
+        <link rel="stylesheet" href="{{ get_url(path='fonts.css') }}" />
     {% endif %}
 
-    {# Fancy Codeblock #}
+    {# Non-blocking Utility Scripts #}
     {% if config.extra.fancy_code %}
-        <script src={{ get_url(path="js/codeblock.js") }}></script>
+        <script defer src="{{ get_url(path='js/codeblock.js') }}"></script>
     {% endif %}
 
-    {# Table of contents #}
     {% if config.extra.toc | default(value=false) %}
-        <script src={{ get_url(path="js/toc.js") }}></script>
+        <script defer src="{{ get_url(path='js/toc.js') }}"></script>
     {% endif %}
 
-    {# Dynamic Note #}
     {% if config.extra.dynamic_note | default(value=false) %}
-        <script src={{ get_url(path="js/note.js") }}></script>
+        <script defer src="{{ get_url(path='js/note.js') }}"></script>
     {% endif %}
 
+    {# MathJax #}
     {% if config.extra.mathjax | default(value=false) %}
         {% if config.extra.mathjax_dollar_inline_enable | default(value=false) %}
             <script>
@@ -105,30 +99,28 @@
             };
             </script>
         {% endif %}
-        <script type="text/javascript" id="MathJax-script" async
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-        </script>
+        <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     {% endif %}
 
-    {# rss #}
-    <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path="atom.xml", trailing_slash=false) }}">
+    {# RSS Feed #}
+    <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path='atom.xml', trailing_slash=false) }}">
 
-
+    {# Theme Stylesheets #}
     {% set theme = config.extra.theme | default(value="toggle") %}
     {% if theme == "dark" %}
         <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" />
     {% elif theme == "light" %}
-        <link rel="stylesheet" type="text/css" href={{ get_url(path="theme/light.css") }} />
+        <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/light.css') }}" />
     {% elif theme == "auto" %}
-        <link rel="stylesheet" type="text/css" href={{ get_url(path="theme/light.css") }} />
+        <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/light.css') }}" />
         <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" media="(prefers-color-scheme: dark)" />
     {% elif theme == "toggle" %}
-        <link rel="stylesheet" type="text/css" href={{ get_url(path="theme/light.css") }} />
+        <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/light.css') }}" />
         <link id="darkModeStyle" rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" />
     {% endif %}
 
-    <!-- Set the correct theme in the script -->
-    <script src={{ get_url(path="js/themetoggle.js") }}></script>
+    {# Theme Execution Script #}
+    <script src="{{ get_url(path='js/themetoggle.js') }}"></script>
     {% if theme == "dark" %}
         <script>setTheme("dark");</script>
     {% elif theme == "light" %}
@@ -145,15 +137,18 @@
         <script>setTheme(getSavedTheme());</script>
     {% endif %}
 
-    <link rel="stylesheet" type="text/css" media="screen" href={{ get_url(path="main.css") }} />
-
-    {# Tailwind CSS #}
-    <link rel="stylesheet" type="text/css" media="screen" href={{ get_url(path="tailwind.css") }} />
+    {# Main Stylesheets #}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ get_url(path='main.css') }}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ get_url(path='tailwind.css') }}" />
 
     {% if config.extra.stylesheets %}
         {% for stylesheet in config.extra.stylesheets %}
             <link rel="stylesheet" href="{{ get_url(path=stylesheet) }}">
         {% endfor %}
     {% endif %}
-    <script src={{ get_url(path="js/mermaid.js") }}></script>
+
+    {# Load Mermaid JS only when needed #}
+    {% if page.extra.mermaid | default(value=section.extra.mermaid | default(value=false)) %}
+        <script defer src="{{ get_url(path='js/mermaid.js') }}"></script>
+    {% endif %}
 </head>

@@ -1,0 +1,21 @@
+name: Build site
+description: Set up the project, run site checks, and build the production site.
+
+runs:
+  using: composite
+  steps:
+    - name: Set up project
+      uses: ./.github/actions/setup-project
+
+    - name: Check site
+      shell: bash
+      run: just check
+
+    - name: Audit dependencies
+      shell: bash
+      run: just audit-deps
+      continue-on-error: true
+
+    - name: Build site
+      shell: bash
+      run: just build

@@ -728,6 +728,10 @@ html {
   border-color: var(--border-color);
 }
 
+.text-center {
+  text-align: center;
+}
+
 .text-right {
   text-align: right;
 }

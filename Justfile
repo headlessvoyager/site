@@ -99,7 +99,7 @@ format:
 	@echo "✓ Formatting complete"
 
 # Check that source code and Markdown content are already formatted
-format-check:
+check-formatting:
 	@echo "Checking formatting..."
 	pnpm exec biome format .
 	pnpm exec prettier --check "content/**/*.md"

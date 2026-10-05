@@ -9,7 +9,7 @@ runs:
 
     - name: Check formatting
       shell: bash
-      run: just format-check
+      run: just check-formatting
 
     - name: Check site
       shell: bash

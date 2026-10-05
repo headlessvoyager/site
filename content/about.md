@@ -14,8 +14,6 @@ My resume can be found [here](/resume-vikram-2026.pdf).
 
 ## Other places to find me
 
-
-
 | place | my account |
 | --- | --- |
 | github - school archive | [viktree](https://github.com/viktree) |

@@ -1,0 +1,4 @@
+allowBuilds:
+  puppeteer: true
+minimumReleaseAgeExclude:
+  - pa11y-ci@5.0.0

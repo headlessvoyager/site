@@ -1,5 +1,5 @@
 name: Set up project
-description: Install the tools, dependencies, and theme used by local development.
+description: Install the tools, dependencies, and theme used to build and verify the site.
 
 runs:
   using: composite

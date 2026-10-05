@@ -55,25 +55,17 @@ jobs:
           name: site-public
           path: public
 
-      - name: Setup Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: '24'
-
-      - name: Install accessibility scanner
-        run: npm install --global pa11y-ci
+      - name: Set up project
+        uses: ./.github/actions/setup-project
 
       - name: Scan for accessibility issues
-        run: pa11y-ci --config .pa11yci
+        run: pnpm exec pa11y-ci --config .pa11yci
         continue-on-error: true
-
-      - name: Install Lighthouse CI
-        run: npm install --global @lhci/cli@0.15.1 http-server@14.1.1
 
       - name: Measure site performance
         run: |
           mkdir -p lighthouse-results
-          lhci autorun --config=lighthouserc.json
+          pnpm exec lhci autorun --config=lighthouserc.json
 
       - name: Upload Lighthouse reports
         if: always()

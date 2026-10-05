@@ -7,11 +7,18 @@ default:
     @just --list
 
 # Install tools, package dependencies, and the pinned theme
-setup:
-    set -a; [ -f .env ] && source .env; set +a
+setup: setup-tools install-theme
+
+# Install the mise toolchain and Node dependencies
+setup-tools: setup-toolchain install-dependencies
+
+# Install the pinned toolchain from mise.toml
+setup-toolchain:
     mise install
-    pnpm install
-    just install-theme
+
+# Install Node dependencies from the lockfile
+install-dependencies:
+    pnpm install --frozen-lockfile
 
 # Build Tailwind CSS for production (minified)
 build-css:

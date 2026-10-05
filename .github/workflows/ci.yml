@@ -57,6 +57,8 @@ jobs:
 
       - name: Set up project
         uses: ./.github/actions/setup-project
+        with:
+          install-theme: false
 
       - name: Scan for accessibility issues
         run: pnpm exec pa11y-ci --config .pa11yci

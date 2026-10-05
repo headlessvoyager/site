@@ -31,7 +31,7 @@ watch-css:
     pnpm run watch:css
 
 # Check the Zola site for errors
-check:
+check: check-formatting
     zola check
 
 # Build and serve the site locally, then scan every generated HTML page for WCAG 2.0 AA issues
@@ -88,12 +88,18 @@ regen-index:
 audit-deps:
 	pnpm audit --audit-level=high
 
-# Format code with biome (JS/TS/JSON/TOML/CSS) and prettier (HTML templates)
+# Format source code with Biome and Markdown content with Prettier
 format:
 	set -a; [ -f .env ] && source .env; set +a
 	@echo "Formatting code..."
-	# Format with biome (JS, JSON, TOML)
-	pnpm exec biome format --write . || true
-	# Format HTML templates with prettier (if available)
-	pnpm exec prettier --write "templates/**/*.html" "content/**/*.md" || true
+	# Format source files; the Biome config excludes generated Tailwind output
+	pnpm exec biome format --write .
+	# Prettier's HTML parser does not preserve Tera template syntax
+	pnpm exec prettier --write "content/**/*.md"
 	@echo "✓ Formatting complete"
+
+# Check that source code and Markdown content are already formatted
+check-formatting:
+	@echo "Checking formatting..."
+	pnpm exec biome format .
+	pnpm exec prettier --check "content/**/*.md"

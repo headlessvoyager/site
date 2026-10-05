@@ -13,7 +13,8 @@
         {% block main_content %}
             Nothing here?!
         {% endblock main_content %}
-    </div> <!-- end #content -->
+    </div>
+    <!-- end #content -->
 
         {% if page.extra.comment is defined  %}
             {% set show_comment = page.extra.comment %}
@@ -27,7 +28,5 @@
         {% endif %}
 
         {% include "partials/footer.html" %}
-    </div>
 </body>
-
 </html>

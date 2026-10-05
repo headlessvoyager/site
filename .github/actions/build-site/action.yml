@@ -7,10 +7,6 @@ runs:
     - name: Set up project
       uses: ./.github/actions/setup-project
 
-    - name: Check formatting
-      shell: bash
-      run: just check-formatting
-
     - name: Check site
       shell: bash
       run: just check

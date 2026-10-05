@@ -31,7 +31,7 @@ watch-css:
     pnpm run watch:css
 
 # Check the Zola site for errors
-check:
+check: check-formatting
     zola check
 
 # Build and serve the site locally, then scan every generated HTML page for WCAG 2.0 AA issues

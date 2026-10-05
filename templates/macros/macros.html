@@ -70,13 +70,8 @@
 {% macro tags(page, short=false) %}
     {%- if page.taxonomies and page.taxonomies.tags %}
         <span class="post-tags-inline">
-            {%- if short %}
-                ::
-                {%- set sep = "," -%}
-            {% else %}
-                :: tags:&nbsp;
-                {%- set sep = "&nbsp;" -%}
-            {% endif -%}
+            ::
+            {%- set sep = "," -%}
             {%- for tag in page.taxonomies.tags %}
                 <a class="post-tag" href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">#{{ tag }}</a>
                 {%- if not loop.last %}{{ sep | safe }}{% endif -%}
@@ -249,4 +244,3 @@
     {% endfor -%}
     </div>
 {% endmacro cards_posts %}
-

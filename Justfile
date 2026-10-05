@@ -52,7 +52,7 @@ check-a11y-compliance: build
     curl --silent --show-error --fail "$base_url/tailwind.css" >/dev/null; \
     curl --silent --show-error --fail "$base_url/main.css" >/dev/null; \
     node -e 'const fs = require("node:fs"); const path = require("node:path"); const walk = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => { const file = path.join(dir, entry.name); return entry.isDirectory() ? walk(file) : [file]; }); const urls = walk("public").filter(file => file.endsWith(".html")).map(file => "http://127.0.0.1:1112/" + file.slice("public/".length).replace(/index\.html$/, "")); if (!urls.length) throw new Error("No generated HTML pages found in public/"); const config = JSON.parse(fs.readFileSync(".pa11yci.local", "utf8")); fs.writeFileSync(process.argv[1], JSON.stringify({ ...config, urls }));' "$config_file"; \
-    npx --yes pa11y-ci --config "$config_file"
+    pnpm exec pa11y-ci --config "$config_file"
 
 # Start the Zola local development server
 serve:

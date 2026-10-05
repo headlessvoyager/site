@@ -97,3 +97,9 @@ format:
 	# Prettier's HTML parser does not preserve Tera template syntax
 	pnpm exec prettier --write "content/**/*.md"
 	@echo "✓ Formatting complete"
+
+# Check that source code and Markdown content are already formatted
+format-check:
+	@echo "Checking formatting..."
+	pnpm exec biome format .
+	pnpm exec prettier --check "content/**/*.md"

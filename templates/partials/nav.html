@@ -1,37 +1,73 @@
 <header role="banner">
-    <nav role="navigation" aria-label="Primary navigation">
-        <div class="flex flex-row items-center justify-between w-full">
-            <div class="flex flex-row items-center gap-3">
-                <a href="{{ config.base_url }}" class="text-2xl" aria-label="Home">{{ config.extra.site_title }}</a>
-                <div class="flex flex-row items-center gap-1.5">
-                    {% for social in config.extra.socials | default(value=[]) %}
-                        {% if social.name != "rss" %}
-                            {% set icon_path = "social_icons/" ~ social.icon ~ ".svg" %}
-                            <a rel="me" href="{{ social.url }}" class="border-none" aria-label="{{ social.name }}">
-                                <img alt="" src="{{ get_url(path=icon_path) }}" class="w-6 h-6 border-none" aria-hidden="true">
-                            </a>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-
-            <div class="flex flex-row items-center">
-                {% for menu in config.extra.menu | default(value=[]) %}
-                    <a href="{{ get_url(path=menu.url) }}" class="mx-2">{{ menu.name }}</a>
-                {% endfor %}
-                <a href="{{ get_url(path='atom.xml', trailing_slash=false) }}" class="mx-2">rss</a>
-
-                {% if config.extra.theme | default(value="toggle") == "toggle" %}
-                    <span class="mx-1">|</span>
-                    <button type="button" id="dark-mode-toggle" onclick="toggleTheme()" class="bg-transparent border-none cursor-pointer inline-flex items-center p-0" aria-label="Toggle theme">
-                        <img src="{{ get_url(path='feather/sun.svg') }}" id="sun-icon" class="w-5 h-5" style="filter: invert(1);" alt="" aria-hidden="true" />
-                        <img src="{{ get_url(path='feather/moon.svg') }}" id="moon-icon" class="w-5 h-5" alt="" aria-hidden="true" />
-                    </button>
-
-                    <!-- Initialize the theme toggle icons -->
-                    <script>updateItemToggleTheme();</script>
-                {% endif %}
-            </div>
+  <nav role="navigation" aria-label="Primary navigation">
+    <div class="flex flex-row items-center justify-between w-full">
+      <div class="flex flex-row items-center gap-3">
+        <a href="{{ config.base_url }}" class="text-2xl" aria-label="Home"
+          >{{ config.extra.site_title }}</a
+        >
+        <div class="flex flex-row items-center gap-1.5">
+          {% for social in config.extra.socials | default(value=[]) %} {% if
+          social.name != "rss" %} {% set icon_path = "social_icons/" ~
+          social.icon ~ ".svg" %}
+          <a
+            rel="me"
+            href="{{ social.url }}"
+            class="border-none"
+            aria-label="{{ social.name }}"
+          >
+            <img
+              alt=""
+              src="{{ get_url(path=icon_path) }}"
+              class="w-6 h-6 border-none"
+              aria-hidden="true"
+            />
+          </a>
+          {% endif %} {% endfor %}
         </div>
-    </nav>
+      </div>
+
+      <div class="flex flex-row items-center">
+        {% for menu in config.extra.menu | default(value=[]) %}
+        <a href="{{ get_url(path=menu.url) }}" class="mx-2">{{ menu.name }}</a>
+        {% endfor %}
+        <a
+          href="{{ get_url(path='atom.xml', trailing_slash=false) }}"
+          class="mx-2"
+          >rss</a
+        >
+
+        {% if config.extra.theme | default(value="toggle") == "toggle" %}
+        <span class="mx-1">|</span>
+        <button
+          type="button"
+          id="dark-mode-toggle"
+          onclick="toggleTheme()"
+          class="bg-transparent border-none cursor-pointer inline-flex items-center p-0"
+          aria-label="Toggle theme"
+        >
+          <img
+            src="{{ get_url(path='feather/sun.svg') }}"
+            id="sun-icon"
+            class="w-5 h-5"
+            style="filter: invert(1)"
+            alt=""
+            aria-hidden="true"
+          />
+          <img
+            src="{{ get_url(path='feather/moon.svg') }}"
+            id="moon-icon"
+            class="w-5 h-5"
+            alt=""
+            aria-hidden="true"
+          />
+        </button>
+
+        <!-- Initialize the theme toggle icons -->
+        <script>
+          updateItemToggleTheme();
+        </script>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
 </header>

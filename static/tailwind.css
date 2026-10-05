@@ -635,14 +635,14 @@ html {
   color: var(--primary-color);
 }
 
-.mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-
 .mx-1 {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
+}
+
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .mb-4 {
@@ -689,12 +689,16 @@ html {
   display: none;
 }
 
+.h-5 {
+  height: 1.25rem;
+}
+
 .h-6 {
   height: 1.5rem;
 }
 
-.h-5 {
-  height: 1.25rem;
+.w-5 {
+  width: 1.25rem;
 }
 
 .w-6 {
@@ -703,10 +707,6 @@ html {
 
 .w-full {
   width: 100%;
-}
-
-.w-5 {
-  width: 1.25rem;
 }
 
 .cursor-pointer {

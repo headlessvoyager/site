@@ -9,14 +9,13 @@ I like understanding how things work, building things, and explaining what I’v
 
 Nowadays I spend my time developing and maintaining ecobee’s subscription and energy control platforms. I’m a backend engineer who tends to gravitate toward problems where the system is complicated, the failure modes matter, and there isn’t an obvious answer. I’ve spent a lot of my career working on distributed systems, infrastructure, and reliability, and I really enjoy understanding a system deeply enough to improve the way it works.
 
-
 My resume can be found [here](/resume-vikram-2026.pdf).
 
 ## Other places to find me
 
-| place | my account |
-| --- | --- |
-| github - school archive | [viktree](https://github.com/viktree) |
-| github - current | [headless-voyager](https://github.com/headless-voyager) |
-| email | [vikram.v.email@gmail.com](mailto:vikram.v.email@gmail.com) |
-| linkedin  | [in/vikramvenkataramanan](https://www.linkedin.com/in/vikramvenkataramanan) |
+| place                   | my account                                                                  |
+| ----------------------- | --------------------------------------------------------------------------- |
+| github - school archive | [viktree](https://github.com/viktree)                                       |
+| github - current        | [headless-voyager](https://github.com/headless-voyager)                     |
+| email                   | [vikram.v.email@gmail.com](mailto:vikram.v.email@gmail.com)                 |
+| linkedin                | [in/vikramvenkataramanan](https://www.linkedin.com/in/vikramvenkataramanan) |

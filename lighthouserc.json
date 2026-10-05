@@ -16,10 +16,7 @@
 		"assert": {
 			"assertions": {
 				"categories:performance": ["error", { "minScore": 0.9 }],
-				"resource-summary:total-byte-weight": [
-					"error",
-					{ "maxNumericValue": 1000000 }
-				]
+				"total-byte-weight": ["error", { "maxNumericValue": 1000000 }]
 			}
 		},
 		"upload": {

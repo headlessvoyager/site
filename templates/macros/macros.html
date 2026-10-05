@@ -22,13 +22,10 @@
         <time>{{ page.date | date(format="%Y-%m-%d") }}</time>
 
         <div>
-          <h2 class="title">
-            <a href="{{ page.permalink | safe }}">{{page.title}}</a>
-
-            {% if page.draft %}
-            <span class="draft-label">DRAFT</span>
-            {% endif %}
-          </h2>
+          <a href="{{ page.permalink | safe }}">{{page.title}}</a>
+          {% if page.draft %}
+          <span class="draft-label">DRAFT</span>
+          {% endif %}
 
           <div class="meta">
             <div class="description">

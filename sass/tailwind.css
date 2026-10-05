@@ -52,10 +52,6 @@ time {
   min-width: 0;
 }
 
-.post-header .title {
-  margin: 0;
-}
-
 /* Markdown content heading styles */
 @layer components {
   .body h1,

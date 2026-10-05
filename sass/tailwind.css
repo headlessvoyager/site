@@ -39,7 +39,21 @@
 }
 
 time {
-  color: var(--text-0);
+  color: #767676;
+}
+
+.post-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.post-header > div {
+  min-width: 0;
+}
+
+.post-header .title {
+  margin: 0;
 }
 
 /* Markdown content heading styles */

@@ -16,6 +16,6 @@ My resume can be found [here](/resume-vikram-2026.pdf).
 | place                   | my account                                                                  |
 | ----------------------- | --------------------------------------------------------------------------- |
 | github - school archive | [viktree](https://github.com/viktree)                                       |
-| github - current        | [headless-voyager](https://github.com/headlessvoyager)                     |
+| github - current        | [headless-voyager](https://github.com/headlessvoyager)                      |
 | email                   | [vikram.v.email@gmail.com](mailto:vikram.v.email@gmail.com)                 |
 | linkedin                | [in/vikramvenkataramanan](https://www.linkedin.com/in/vikramvenkataramanan) |

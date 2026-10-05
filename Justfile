@@ -88,12 +88,12 @@ regen-index:
 audit-deps:
 	pnpm audit --audit-level=high
 
-# Format code with biome (JS/TS/JSON/TOML/CSS) and prettier (HTML templates)
+# Format source code with Biome and Markdown content with Prettier
 format:
 	set -a; [ -f .env ] && source .env; set +a
 	@echo "Formatting code..."
-	# Format with biome (JS, JSON, TOML)
-	pnpm exec biome format --write . || true
-	# Format HTML templates with prettier (if available)
-	pnpm exec prettier --write "templates/**/*.html" "content/**/*.md" || true
+	# Format source files; the Biome config excludes generated Tailwind output
+	pnpm exec biome format --write .
+	# Prettier's HTML parser does not preserve Tera template syntax
+	pnpm exec prettier --write "content/**/*.md"
 	@echo "✓ Formatting complete"

@@ -1,11 +1,23 @@
 name: Set up project
-description: Install the tools, dependencies, and theme used by local development.
+description: Install the tools, dependencies, and theme used to build and verify the site.
+
+inputs:
+  install-theme:
+    description: Whether to install the pinned Zola theme submodule.
+    required: false
+    default: "true"
 
 runs:
   using: composite
   steps:
     - name: Install tools from mise.toml
       uses: jdx/mise-action@v5
+      with:
+        install: false
+
+    - name: Install mise toolchain
+      shell: bash
+      run: mise install
 
     - name: Locate pnpm store
       id: pnpm-store
@@ -21,4 +33,9 @@ runs:
 
     - name: Install project dependencies
       shell: bash
-      run: just setup
+      run: just install-dependencies
+
+    - name: Install pinned theme
+      if: inputs.install-theme == 'true'
+      shell: bash
+      run: just install-theme

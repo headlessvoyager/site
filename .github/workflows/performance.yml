@@ -1,0 +1,40 @@
+name: Performance
+
+permissions:
+  contents: read
+
+concurrency:
+  group: performance-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  performance:
+    runs-on: ubuntu-latest
+    env:
+      SITE_BASE_URL: http://localhost:8080
+      SITE_TITLE: ${{ secrets.SITE_TITLE || vars.SITE_TITLE || 'the Headless Voyager''s blog' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build site
+        uses: ./.github/actions/build-site
+
+      - name: Measure site performance
+        run: |
+          mkdir -p lighthouse-results
+          pnpm exec lhci autorun --config=lighthouserc.json
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-reports
+          path: lighthouse-results
+          if-no-files-found: ignore

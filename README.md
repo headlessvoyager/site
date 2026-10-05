@@ -4,6 +4,11 @@ Deployed site: https://headless-voyager.vercel.app
 
 This site is built with Zola using the apollo theme, alongside Tailwind CSS.
 
+## Browser Support
+
+The generated CSS uses Tailwind CSS 4 and supports Safari 16.4+, Chrome 111+,
+and Firefox 128+. Older browser versions may not support all site styles.
+
 ## Getting Started
 
 This project uses [mise](https://mise.jdx.co/) for tool/dependency management and [just](https://github.com/casey/just) for running tasks.

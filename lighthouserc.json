@@ -1,0 +1,30 @@
+{
+	"ci": {
+		"collect": {
+			"url": [
+				"http://localhost:8080/",
+				"http://localhost:8080/about/",
+				"http://localhost:8080/posts/nock-nock/"
+			],
+			"startServerCommand": "http-server public --port 8080",
+			"startServerReadyPattern": "Available on:",
+			"numberOfRuns": 3,
+			"settings": {
+				"preset": "desktop"
+			}
+		},
+		"assert": {
+			"assertions": {
+				"categories:performance": ["error", { "minScore": 0.9 }],
+				"resource-summary:total-byte-weight": [
+					"error",
+					{ "maxNumericValue": 1000000 }
+				]
+			}
+		},
+		"upload": {
+			"target": "filesystem",
+			"outputDir": "./lighthouse-results"
+		}
+	}
+}

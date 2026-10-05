@@ -66,3 +66,19 @@ jobs:
       - name: Scan for accessibility issues
         run: pa11y-ci --config .pa11yci
         continue-on-error: true
+
+      - name: Install Lighthouse CI
+        run: npm install --global @lhci/cli@0.15.1 http-server@14.1.1
+
+      - name: Measure site performance
+        run: |
+          mkdir -p lighthouse-results
+          lhci autorun --config=lighthouserc.json
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-reports
+          path: lighthouse-results
+          if-no-files-found: ignore

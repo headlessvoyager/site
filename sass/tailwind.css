@@ -33,6 +33,15 @@
   }
 }
 
+/* Theme stylesheets are unlayered, so keep these overrides outside Tailwind layers. */
+.primary-color {
+  color: #639f97;
+}
+
+time {
+  color: var(--text-0);
+}
+
 /* Markdown content heading styles */
 @layer components {
   .body h1,

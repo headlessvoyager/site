@@ -40,6 +40,16 @@ To compile the Tailwind CSS assets for production and build the final static sit
 just build
 ```
 
+## Accessibility Check
+
+To build the site and scan the configured pages for WCAG 2.0 AA issues using Pa11y:
+
+```shell
+just check-a11y-compliance
+```
+
+The check builds and serves the site locally so Pa11y audits every generated HTML page and its local stylesheets. It uses `.pa11yci.local` for scan settings, and requires the project tools and dependencies from `just setup`, plus a Chrome/Chromium browser available for Pa11y.
+
 ## All Commands
 
 Run `just` without any arguments to see a full list of available recipes:

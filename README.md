@@ -11,18 +11,17 @@ and Firefox 128+. Older browser versions may not support all site styles.
 
 ## Getting Started
 
-This project uses [mise](https://mise.jdx.co/) for tool/dependency management and [just](https://github.com/casey/just) for running tasks.
+This project uses [mise](https://mise.jdx.co/) for tool/dependency management and [just](https://github.com/casey/just) for running tasks. Node.js 24 is the supported runtime and is pinned with the other tools in `mise.toml`.
 
 Top-level tasks from the Justfile are also mirrored in mise.toml under the [tasks] table so external tooling can discover them. To set up your environment and install all dependencies (including Zola, Tailwind CSS, and Node/pnpm package dependencies):
 
 ```shell
-# ensure tools are available
+# install the pinned tools, Node.js packages, and theme
 mise install
-# then run the setup task (installs node modules)
 just setup
 ```
 
-You can copy .env.example -> .env to override build-time config loaded by the Justfile (.env usage documented in mise.toml).
+CI uses the same `mise.toml` and `just setup`, `just check`, and `just build` commands through the repository-local setup action. You can copy `.env.example` to `.env` to override build-time config loaded by the Justfile (.env usage documented in mise.toml).
 ## Local Development
 
 To start both the Tailwind CSS compiler (watching for changes) and the Zola local server concurrently, run:

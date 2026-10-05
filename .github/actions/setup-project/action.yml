@@ -1,0 +1,24 @@
+name: Set up project
+description: Install the tools, dependencies, and theme used by local development.
+
+runs:
+  using: composite
+  steps:
+    - name: Install tools from mise.toml
+      uses: jdx/mise-action@v5
+
+    - name: Locate pnpm store
+      id: pnpm-store
+      shell: bash
+      run: echo "path=$(pnpm store path)" >> "$GITHUB_OUTPUT"
+
+    - name: Cache pnpm store
+      uses: actions/cache@v6
+      with:
+        path: ${{ steps.pnpm-store.outputs.path }}
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: ${{ runner.os }}-pnpm-
+
+    - name: Install project dependencies
+      shell: bash
+      run: just setup

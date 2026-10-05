@@ -176,7 +176,7 @@ jobs:
         run: |
           set -euo pipefail
           echo "Scanning all HTML files for accessibility issues..."
-          pa11y-ci --config .pa11y.json
+          pa11y-ci --config .pa11yci
         continue-on-error: true
 
       - name: Check dependencies for security vulnerabilities

@@ -28,5 +28,6 @@ watch-css = { run = "just watch-css", description = "Watch and rebuild Tailwind 
 serve = { run = "just serve", description = "Start the Zola local development server" }
 build = { run = "just build", description = "Build the site for production (build CSS then Zola)" }
 check = { run = "just check", description = "Run zola check to validate site" }
+check-a11y-compliance = { run = "just check-a11y-compliance", description = "Build the site and scan pages for WCAG 2.0 AA accessibility issues" }
 blog = { run = "just blog", description = "Start development environment (Tailwind watcher + Zola server)" }
 

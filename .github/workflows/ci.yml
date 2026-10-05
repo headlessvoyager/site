@@ -1,8 +1,15 @@
 name: CI
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
-    branches: [ main, headlessvoyager-workspace-overview ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -112,29 +119,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-
-      - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+          cache: pnpm
 
       - name: Verify tools & install theme
         run: |
           chmod +x tools/bin/just || true
           tools/bin/just install-theme
 
-      - name: Run checks and audit
+      - name: Run checks
         run: |
           set -euo pipefail
-          tools/bin/just check || true
-          tools/bin/pnpm audit --audit-level=high || true
+          tools/bin/just check
+
+      - name: Audit dependencies
+        run: |
+          set -euo pipefail
+          tools/bin/pnpm audit --audit-level=high
+        continue-on-error: true
 
       - name: Build site
         run: |
@@ -169,25 +170,17 @@ jobs:
           node-version: '20'
 
       - name: Install accessibility and security scanners
-        run: npm install --global pa11y-ci npm-audit-html
+        run: npm install --global pa11y-ci
 
       - name: Scan for accessibility issues
         run: |
-          # Scan HTML files for a11y issues using pa11y
-          set +e
-          found_issues=false
-          for html_file in $(find public -name "*.html" | head -20); do
-            echo "Checking $html_file for accessibility issues..."
-            pa11y --config .pa11y.json "$html_file" || found_issues=true
-          done
-          if [ "$found_issues" = true ]; then
-            echo "⚠️ Accessibility issues found (non-blocking for now)"
-          fi
-          set -e
+          set -euo pipefail
+          echo "Scanning all HTML files for accessibility issues..."
+          pa11y-ci --config .pa11y.json
+        continue-on-error: true
 
       - name: Check dependencies for security vulnerabilities
         run: |
-          set +e
           npm audit --audit-level=moderate || true
-          set -e
           echo "✓ Security audit complete (view results above)"
+        continue-on-error: true

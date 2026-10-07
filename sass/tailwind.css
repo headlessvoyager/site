@@ -64,6 +64,10 @@ time {
 	color: #767676;
 }
 
+.meta .tags a::before {
+	content: none;
+}
+
 .post-tag,
 .tags a {
 	display: inline-flex;

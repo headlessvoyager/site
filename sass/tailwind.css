@@ -74,8 +74,11 @@ time {
 	background: rgba(99, 159, 151, 0.08);
 	color: var(--primary-color);
 	text-decoration: none;
-	transition: background-color 150ms ease, border-color 150ms ease,
-		color 150ms ease, transform 150ms ease;
+	transition:
+		background-color 150ms ease,
+		border-color 150ms ease,
+		color 150ms ease,
+		transform 150ms ease;
 }
 
 .post-tag:hover,

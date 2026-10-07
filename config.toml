@@ -1,6 +1,6 @@
 # The URL the site will be built for
 base_url = "https://headless-voyager.vercel.app"
-title = "headlessvoyager"
+title = "Headless Voyager"
 
 theme = "apollo"
 generate_feeds = true
@@ -20,7 +20,7 @@ highlight_theme = "ayu-light"
 
 [extra]
 # Put all your custom variables here
-site_title = "the Headless Voyager's blog"
+site_title = "Headless Voyager"
 me = "Vikram Venkataramanan"
 
 favicon = true

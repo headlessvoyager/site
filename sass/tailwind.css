@@ -34,12 +34,16 @@
 }
 
 /* Theme stylesheets are unlayered, so keep these overrides outside Tailwind layers. */
+:root.light {
+	--primary-color: #639f97;
+}
+
 .primary-color {
 	color: var(--primary-color);
 }
 
 time {
-	color: #767676;
+	color: var(--text-1);
 }
 
 .meta {
@@ -47,7 +51,7 @@ time {
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 0.45rem;
-	color: #767676;
+	color: var(--text-1);
 	font-size: 0.95rem;
 }
 
@@ -61,7 +65,7 @@ time {
 
 .tags-label,
 .post-tags-inline {
-	color: #767676;
+	color: var(--text-1);
 }
 
 .meta .tags a::before {

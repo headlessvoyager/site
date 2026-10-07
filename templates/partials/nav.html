@@ -1,48 +1,58 @@
-<header role="banner">
-  <nav role="navigation" aria-label="Primary navigation">
-    <div class="flex flex-row items-center justify-between w-full">
-      <div class="flex flex-row items-center gap-3">
-        <a href="{{ config.base_url }}" class="text-2xl" aria-label="Home"
-          >{{ config.extra.site_title }}</a
-        >
-        <div class="flex flex-row items-center gap-1.5">
-          {% for social in config.extra.socials | default(value=[]) %} {% if
-          social.name != "rss" %} {% set icon_path = "social_icons/" ~
-          social.icon ~ ".svg" %}
-          <a
-            rel="me"
-            href="{{ social.url }}"
-            class="border-none"
-            aria-label="{{ social.name }}"
-          >
+<header class="block w-full">
+  <nav class="w-full" aria-label="Primary navigation">
+    <div class="grid w-full grid-cols-[minmax(2rem,1fr)_auto_minmax(2rem,1fr)] items-center">
+      <div class="justify-self-start">
+        <a href="{{ config.base_url }}" class="site-brand" aria-label="Home">
+          <span class="site-brand-frame inline-flex h-8 w-8 items-center justify-center" aria-hidden="true">
+            <svg class="site-brand-border" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M 20 31 L 45 11 L 70 31 L 95 11 L 120 31 L 145 11 L 170 31 L 195 11 L 220 31 L 210 48 L 234 71 L 210 94 L 234 118 L 210 140 L 234 165 L 210 188 L 234 213 L 220 230 L 195 210 L 170 230 L 145 210 L 120 230 L 95 210 L 70 230 L 45 210 L 20 230 L 10 213 L 34 188 L 10 165 L 34 140 L 10 118 L 34 94 L 10 71 L 34 48 Z" fill="#f2eee7" stroke="#2b241f" stroke-width="8" stroke-linejoin="round"/>
+            </svg>
             <img
-              alt=""
-              src="{{ get_url(path=icon_path) }}"
-              class="w-6 h-6 border-none"
-              aria-hidden="true"
+              src="{{ get_url(path='headless-voyager-logo.png') }}"
+              alt="Headless Voyager"
+              class="site-brand-logo"
             />
-          </a>
-          {% endif %} {% endfor %}
-        </div>
+          </span>
+        </a>
       </div>
 
-      <div class="flex flex-row items-center">
+      <div class="flex items-center justify-center gap-4 max-[520px]:gap-2">
         {% for menu in config.extra.menu | default(value=[]) %}
-        <a href="{{ get_url(path=menu.url) }}" class="mx-2">{{ menu.name }}</a>
+        <a href="{{ get_url(path=menu.url) }}" class="inline-flex items-center gap-1.5">
+          {% if menu.name == "blog" %}
+          <svg class="h-4 w-4 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 1 4 17.5z"/>
+            <path d="M4 17.5A2.5 2.5 0 0 1 6.5 15H20M8 7h8"/>
+          </svg>
+          {% elif menu.name == "whoami" %}
+          <svg class="h-4 w-4 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="8" r="3.2"/>
+            <path d="M5.5 20a6.5 6.5 0 0 1 13 0"/>
+          </svg>
+          {% endif %}
+          <span>{{ menu.name }}</span>
+        </a>
         {% endfor %}
         <a
           href="{{ get_url(path='atom.xml', trailing_slash=false) }}"
-          class="mx-2"
-          >rss</a
+          class="inline-flex items-center gap-1.5"
+          >
+          <svg class="h-4 w-4 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <circle cx="5" cy="19" r="1"/>
+            <path d="M4 11a9 9 0 0 1 9 9M4 5a15 15 0 0 1 15 15"/>
+          </svg>
+          <span>rss</span>
+        </a
         >
+      </div>
 
+      <div class="flex items-center justify-self-end">
         {% if config.extra.theme | default(value="toggle") == "toggle" %}
-        <span class="mx-1">|</span>
         <button
           type="button"
           id="dark-mode-toggle"
           onclick="toggleTheme()"
-          class="bg-transparent border-none cursor-pointer inline-flex items-center p-0"
+          class="inline-flex cursor-pointer items-center border-none bg-transparent p-0"
           aria-label="Toggle theme"
         >
           <img
